@@ -26,16 +26,20 @@ import torch_helpers as h
 
 
 def test_varify():
+    # varify takes integer range objects
     x = range(0, 3)
-    t = h.varify(x, 'int')  # setting a `Float` tensor results in RunTimeError
+    v = h.varify(x, 'int')  # setting a `Float` tensor results in RunTimeError
 
+    # takes float arrays
     x = np.arange(0.0, 3.0)
-    t = h.varify(x)
+    v = h.varify(x)
 
+    # takes torch tensors
     x = torch.randn(4, 1)
-    t = h.varify(x)
+    v = h.varify(x)
 
 
+# h.one_hot gives you one_hot encoding
 def test_one_hot():
     acts = h.const([1, 2], dtype='int')
     n = 3
@@ -44,6 +48,7 @@ def test_one_hot():
                    message="one_hot gives incorrect output {}".format(oh))
 
 
+# For RL tasks, `h.sample_probs` allows you to back-prop through action probability
 def test_mask():
     probs = h.varify([[0.1, 0.2, 0.7], [0.4, 0.5, 0.1]])
     acts = h.const([1, 2], dtype='int')
