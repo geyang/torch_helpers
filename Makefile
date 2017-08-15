@@ -7,7 +7,7 @@ wheel:
 	python setup.py bdist_wheel
 dev:
 	make wheel
-	pip install dist/torch_helpers*.whl
+	pip install --ignore-installed dist/torch_helpers*.whl
 publish:
 	make test
 	make wheel
