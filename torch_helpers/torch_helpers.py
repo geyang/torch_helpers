@@ -152,11 +152,11 @@ def cast(var, dtype):
         ```
         import torch
         import torch_extras
-        setattr(torch, 'cast', torch_extras.cast)
+
         input = torch.FloatTensor(1)
         target_type = type(torch.LongTensor(1))
-        type(torch.cast(input, target_type))
-        # <class 'torch.LongTensor'>
+
+        assert type(torch.cast(input, target_type)) is torch.LongTensor
         ```
     """
 
