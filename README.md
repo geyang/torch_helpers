@@ -36,7 +36,18 @@ def test_varify():
 
     # takes torch tensors
     x = torch.randn(4, 1)
-    v = h.varify(x)
+    t = h.varify(x)
+
+    t = h.varify(x, volatile=True)
+
+    t = h.const(x, volatile=True)
+    assert t.requires_grad is False and t.volatile is True
+
+    # You can override the requires_grad flag in constants.
+    # This is useful when you want to have a constant by default, but
+    # would like to switch to var when a requires_grad flag is passed in.
+    t = h.const(x, requires_grad=True)
+    assert t.requires_grad is True
 
 
 # h.one_hot gives you one_hot encoding

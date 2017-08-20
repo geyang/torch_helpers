@@ -65,15 +65,19 @@ def varify(d, dtype='float', requires_grad=True, **kwargs) -> Variable:
     * To use volatile variable, ues volatile instead.
     """
     d = tensorify(d, dtype)
+    if 'volatile' in kwargs:
+        return Variable(d, **kwargs)
     return Variable(d, requires_grad=requires_grad, **kwargs)
 
 
 def const(d, **kwargs):
+    if 'requires_grad' in kwargs:
+        return Variable(d, **kwargs)
     return varify(d, requires_grad=False, **kwargs)
 
 
 def volatile(d, **kwargs):
-    return varify(d, volatile=True, requires_grad=False, **kwargs)
+    return varify(d, volatile=True, **kwargs)
 
 
 def sample_probs(probs, index):
