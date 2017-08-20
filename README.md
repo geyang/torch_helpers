@@ -25,6 +25,17 @@ import numpy as np
 import torch_helpers as h
 
 
+def test_requires_grad():
+    assert h.requires_grad(requires_grad=True) is True
+    assert h.requires_grad(requires_grad=False) is False
+    assert h.requires_grad(volatile=True) is False
+    assert h.requires_grad(volatile=False) is False
+    assert h.requires_grad(requires_grad=True, volatile=True) is False
+    assert h.requires_grad(requires_grad=False, volatile=True) is False
+    assert h.requires_grad(requires_grad=False, volatile=False) is False
+    assert h.requires_grad(requires_grad=True, volatile=False) is True
+    
+
 def test_varify():
     # varify takes integer range objects
     x = range(0, 3)

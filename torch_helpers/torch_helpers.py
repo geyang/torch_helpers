@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 import numpy as np
 import torch
 from torch.autograd import Variable
@@ -28,26 +30,21 @@ def is_ndarray(d):
     return isinstance(d, np.ndarray)
 
 
-def is_tensor(d):
-    return hasattr(d, 'data') and not is_ndarray(d)
-
-
 def is_not_ndarray(d):
     return not isinstance(d, np.ndarray)
 
 
-def is_not_tensor(d):
-    return is_not_ndarray(d) or not hasattr(d, 'data')
-
-
-def is_not_ndarray_or_tensor(d):
-    return hasattr(d, 'data')
+def requires_grad(**args):
+    d = defaultdict(lambda: None, **args)
+    if d['volatile'] or not d['requires_grad']:
+        return False
+    return True
 
 
 def tensorify(d, dtype='float', **kwargs) -> torch._TensorBase:
     if not hasattr(d, 'shape'):
         d = np.array(d)
-    elif not isinstance(d, np.ndarray):  # d is tensor or variable
+    elif torch.is_tensor(d):  # d is tensor or variable
         return d
 
     if dtype == 'float':

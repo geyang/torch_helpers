@@ -3,6 +3,17 @@ import numpy as np
 import torch_helpers as h
 
 
+def test_requires_grad():
+    assert h.requires_grad(requires_grad=True) is True
+    assert h.requires_grad(requires_grad=False) is False
+    assert h.requires_grad(volatile=True) is False
+    assert h.requires_grad(volatile=False) is False
+    assert h.requires_grad(requires_grad=True, volatile=True) is False
+    assert h.requires_grad(requires_grad=False, volatile=True) is False
+    assert h.requires_grad(requires_grad=False, volatile=False) is False
+    assert h.requires_grad(requires_grad=True, volatile=False) is True
+
+
 def test_varify():
     x = range(0, 3)
     t = h.varify(x, 'int')  # setting a `Float` tensor results in RunTimeError
@@ -23,6 +34,7 @@ def test_varify():
     # would like to switch to var when a requires_grad flag is passed in.
     t = h.const(x, requires_grad=True)
     assert t.requires_grad is True
+
 
 def test_one_hot():
     acts = h.const([1, 2], dtype='int')
