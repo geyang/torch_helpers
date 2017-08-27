@@ -2,8 +2,9 @@ from setuptools import setup
 
 setup(name='torch_helpers',
       description='A set of helper functions for pyTorch',
-      long_description='Moleskin makes it easy to print in terminals',
-      version='0.2.0',
+      long_description='Torch helpers is a collection of useful helpers and debugging tools for PyTorch. Most notably'
+                       'the torch computation graph graphing tool!',
+      version='0.2.1',
       url='https://github.com/episodeyang/torch_helpers',
       author='Ge Yang',
       author_email='yangge1987@gmail.com',

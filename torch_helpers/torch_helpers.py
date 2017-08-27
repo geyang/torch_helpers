@@ -22,7 +22,13 @@ def thaw(self: torch.nn.Module):
 
 
 def assert_equal(a, b, message=None):
+    """wrapper for numpy all() method"""
     assert (a.numpy() == b.numpy() if hasattr(b, 'numpy') else b).all(), message
+
+
+def assert_close(a, b, message=None):
+    """wrapper for numpy all_close() method"""
+    assert (a.numpy() == b.numpy() if hasattr(b, 'numpy') else b).all_close(), message
 
 
 # helpers
