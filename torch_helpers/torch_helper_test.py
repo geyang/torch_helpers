@@ -3,15 +3,15 @@ import numpy as np
 import torch_helpers as h
 
 
-def test_requires_grad():
-    assert h.requires_grad(requires_grad=True) is True
-    assert h.requires_grad(requires_grad=False) is False
-    assert h.requires_grad(volatile=True) is False
-    assert h.requires_grad(volatile=False) is False
-    assert h.requires_grad(requires_grad=True, volatile=True) is False
-    assert h.requires_grad(requires_grad=False, volatile=True) is False
-    assert h.requires_grad(requires_grad=False, volatile=False) is False
-    assert h.requires_grad(requires_grad=True, volatile=False) is True
+# def test_requires_grad():
+#     assert h.requires_grad(requires_grad=True) is True
+#     assert h.requires_grad(requires_grad=False) is False
+#     assert h.requires_grad(volatile=True) is False
+#     assert h.requires_grad(volatile=False) is False
+#     assert h.requires_grad(requires_grad=True, volatile=True) is False
+#     assert h.requires_grad(requires_grad=False, volatile=True) is False
+#     assert h.requires_grad(requires_grad=False, volatile=False) is False
+#     assert h.requires_grad(requires_grad=True, volatile=False) is True
 
 
 def test_varify():
@@ -24,10 +24,11 @@ def test_varify():
     x = torch.randn(4, 1)
     t = h.varify(x)
 
-    t = h.varify(x, volatile=True)
+    t = h.varify(x)
+    assert t.requires_grad is True
 
-    t = h.const(x, volatile=True)
-    assert t.requires_grad is False and t.volatile is True
+    t = h.const(x)
+    assert t.requires_grad is False
 
     # You can override the requires_grad flag in constants.
     # This is useful when you want to have a constant by default, but
@@ -69,3 +70,11 @@ def test_mask_operations_correctness():
     assert (sampled_probs_1.data.numpy() == sampled_probs_2.data.numpy()).all(), 'two should give the same result'
     assert (probs_1.grad.data.numpy() ==
             probs_2.grad.data.numpy()).all(), 'two should give the same grad for the original input'
+
+
+if __name__ == "__main__":
+    test_mask()
+    test_mask_operations_correctness()
+    test_one_hot()
+    # test_requires_grad()
+    test_varify()

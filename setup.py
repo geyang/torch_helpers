@@ -1,10 +1,13 @@
 from setuptools import setup
 
+with open(path.join(path.abspath(path.dirname(__file__)), 'VERSION'), encoding='utf-8') as f:
+    version = f.read()
+
 setup(name='torch_helpers',
       description='A set of helper functions for pyTorch',
       long_description='Torch helpers is a collection of useful helpers and debugging tools for PyTorch. Most notably'
                        'the torch computation graph graphing tool!',
-      version='0.2.1',
+      version=version,
       url='https://github.com/episodeyang/torch_helpers',
       author='Ge Yang',
       author_email='yangge1987@gmail.com',

@@ -41,13 +41,14 @@ def is_not_ndarray(d):
 
 
 def requires_grad(**args):
-    d = defaultdict(lambda: None, **args)
-    if d['volatile'] or not d['requires_grad']:
-        return False
-    return True
+    raise DeprecationWarning('deprecated, use torch.no_grad() context manager instead.')
+    # d = defaultdict(lambda: None, **args)
+    # if d['volatile'] or not d['requires_grad']:
+    #     return False
+    # return True
 
 
-def tensorify(d, dtype='float', **kwargs) -> torch._TensorBase:
+def tensorify(d, dtype='float', **kwargs):
     if not hasattr(d, 'shape'):
         d = np.array(d)
     elif torch.is_tensor(d):  # d is tensor or variable
@@ -80,7 +81,10 @@ def const(d, **kwargs):
 
 
 def volatile(d, **kwargs):
-    return varify(d, volatile=True, **kwargs)
+    raise DeprecationWarning("""Deprecated: Use the context manager instead: 
+        with torch.no_grad():
+            y = x * 10 + z""")
+    # return varify(d, volatile=True, **kwargs)
 
 
 def sample_probs(probs, index):
