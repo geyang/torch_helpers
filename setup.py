@@ -1,4 +1,5 @@
 from setuptools import setup
+from os import path
 
 with open(path.join(path.abspath(path.dirname(__file__)), 'VERSION'), encoding='utf-8') as f:
     version = f.read()

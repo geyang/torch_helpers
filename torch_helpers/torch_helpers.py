@@ -48,7 +48,7 @@ def requires_grad(**args):
     # return True
 
 
-def tensorify(d, dtype='float', **kwargs):
+def tensorify(d, dtype='float', cuda="auto", **kwargs):
     if not hasattr(d, 'shape'):
         d = np.array(d)
     elif torch.is_tensor(d):  # d is tensor or variable
@@ -60,17 +60,19 @@ def tensorify(d, dtype='float', **kwargs):
         tensor_type = torch.LongTensor
     else:
         raise Exception('tensor type "{}" is not supported'.format(dtype))
-    return tensor_type(d, **kwargs)
+
+    if cuda == "auto" and torch.cuda.is_available():
+        return tensor_type(d, **kwargs).cuda()
+    else:
+        return tensor_type(d, **kwargs)
 
 
-def varify(d, dtype='float', requires_grad=True, **kwargs) -> Variable:
+def varify(d, dtype='float', cuda='auto', requires_grad=True, **kwargs) -> Variable:
     """takes in an array or numpy ndarray, returns variable with requires_grad=True.
     * To use requires_grad=False, use const instead.
     * To use volatile variable, ues volatile instead.
     """
-    d = tensorify(d, dtype)
-    if 'volatile' in kwargs:
-        return Variable(d, **kwargs)
+    d = tensorify(d, dtype, cuda=cuda)
     return Variable(d, requires_grad=requires_grad, **kwargs)
 
 
