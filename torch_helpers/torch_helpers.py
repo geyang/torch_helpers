@@ -77,8 +77,6 @@ def varify(d, dtype='float', cuda='auto', requires_grad=True, **kwargs) -> Varia
 
 
 def const(d, **kwargs):
-    if 'requires_grad' in kwargs:
-        return Variable(d, **kwargs)
     return varify(d, requires_grad=False, **kwargs)
 
 
