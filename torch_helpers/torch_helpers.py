@@ -77,6 +77,8 @@ def varify(d, dtype='float', cuda='auto', requires_grad=True, **kwargs) -> Varia
 
 
 def const(d, **kwargs):
+    if 'requires_grad' in kwargs:
+        raise TypeError('torch_helpers.const should not require gradient.')
     return varify(d, requires_grad=False, **kwargs)
 
 
