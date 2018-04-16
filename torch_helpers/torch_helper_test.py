@@ -13,6 +13,12 @@ import torch_helpers as h
 #     assert h.requires_grad(requires_grad=False, volatile=False) is False
 #     assert h.requires_grad(requires_grad=True, volatile=False) is True
 
+def assert_raises(a: Exception, fn):
+    try:
+        fn()
+    except a as e:
+        raised = True
+    assert raised, f"{fn} did not raise a {a}"
 
 def test_varify():
     x = range(0, 3)
@@ -33,8 +39,8 @@ def test_varify():
     # You can override the requires_grad flag in constants.
     # This is useful when you want to have a constant by default, but
     # would like to switch to var when a requires_grad flag is passed in.
-    t = h.const(x, requires_grad=True)
-    assert t.requires_grad is True
+    assert_raises(TypeError, lambda: h.const(x, requires_grad=False))
+    assert_raises(TypeError, lambda: h.const(x, requires_grad=True))
 
 
 def test_one_hot():
