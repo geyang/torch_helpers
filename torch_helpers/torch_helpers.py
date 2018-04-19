@@ -52,7 +52,10 @@ def tensorify(d, dtype='float', cuda="auto", **kwargs):
     if not hasattr(d, 'shape'):
         d = np.array(d)
     elif torch.is_tensor(d):  # d is tensor or variable
-        return d
+        if cuda == "auto" and torch.cuda.is_available():
+            return d.cuda()
+        else:
+            return d
 
     if dtype == 'float':
         tensor_type = torch.FloatTensor
@@ -61,7 +64,7 @@ def tensorify(d, dtype='float', cuda="auto", **kwargs):
     else:
         raise Exception('tensor type "{}" is not supported'.format(dtype))
 
-    if cuda == "auto" and torch.cuda.is_available():
+    if cuda == "auto" and torch.cuda.is_available() or cuda is True:
         return tensor_type(d, **kwargs).cuda()
     else:
         return tensor_type(d, **kwargs)

@@ -1,5 +1,20 @@
 # Torch Helpers, a set of utilities for PyTorch Machine Learning Workflow
 
+**What does this do?** It does:
+1. Automatically setting the `cuda` flag so that you don't have to do that manually.
+
+    ```python
+    import torch_helpers as h
+
+    h.varify(torch.randn(5, 2))  # <== Automatically setting cuda depending on if torch.cuda.is_availabe()
+
+    # And you can override this!
+    a = h.varify(torch.randn(5, 2), cuda=False)
+    b = h.varify(torch.randn(5, 2), cuda=True)
+    # The defaut is "auto"
+    b = h.varify(torch.randn(5, 2), cuda="auto")
+    ```
+
 ## Todo
 
 ### Done
